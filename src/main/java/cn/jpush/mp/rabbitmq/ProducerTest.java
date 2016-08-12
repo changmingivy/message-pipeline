@@ -1,8 +1,9 @@
 package cn.jpush.mp.rabbitmq;
 
-public class ConsumerTest {
+public class ProducerTest {
+	
 	public static void main(String[] args) throws Exception {
-		Handler handler = new DealHandle();
+		
 		Config config = new Config();
 		config.rabbitMQServer = "127.0.0.1";
 		config.rabbitMQPort ="5672";
@@ -12,11 +13,9 @@ public class ConsumerTest {
 		config.basicQos =1;
 		config.exchangeMode ="direct";
 		
-		Thread thread = new Thread(new WorkConsumerLB(handler, "hello", "hello", config));
-		thread.start();
-		thread.join();
-		System.out.println("customer start");
+		String msg ="hello world";
 		
+		new WorkProducer("hello", "hello", config).sendMessage(msg);
 	}
 
 }

@@ -30,7 +30,7 @@ import cn.jpush.mp.utils.SerializeUtil;
 	    @Override
 	    public void run() {
 	        try {
-	            channel.queueDeclare(queueName, true, false, false, null);
+	            channel.queueDeclare(queueName, false, false, false, null);
 	            channel.queueBind(queueName, exchangeName, routingKey);
 	            channel.basicConsume(queueName, false, this);
 	        } catch (IOException e) {

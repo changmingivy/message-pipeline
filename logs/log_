@@ -1,0 +1,4 @@
+18:37:17,953  INFO WorkProducer:37 - Send message assignment to Consumer success
+18:37:27,711  INFO WorkConsumerImpl:45 - Consumer amq.ctag-1Sx66wI4rDsJSn6H9SIgqQ registered
+18:37:27,716  INFO WorkConsumerImpl:62 - Receive message from server[127.0.0.1] queue[hello]: hello world
+18:37:27,716  INFO DealHandle:11 - receive msg:hello world

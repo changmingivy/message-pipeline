@@ -1,4 +1,7 @@
-package cn.jpush.mp.rabbitmq;
+package cn.jpush.mp.rabbitmq.test;
+
+import cn.jpush.mp.rabbitmq.Config;
+import cn.jpush.mp.rabbitmq.WorkProducer;
 
 public class ProducerTest {
 	

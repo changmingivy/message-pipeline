@@ -10,8 +10,9 @@ import com.rabbitmq.client.AlreadyClosedException;
 import cn.jpush.mp.utils.SerializeUtil;
 
 public class WorkProducer extends WorkEndPoint {
-    private String routingKey;
+    
     private static final Logger Log = LoggerFactory.getLogger(WorkProducer.class);
+    private String routingKey;
     private String queueName;
 
     /**
@@ -33,9 +34,7 @@ public class WorkProducer extends WorkEndPoint {
     public boolean sendMessage(Object message) throws Exception {
         try {
             this.channel.basicPublish(exchangeName, routingKey, null, SerializeUtil.getBytes(message));
-            //channel.basicPublish(exchangeName, routingKey, null, getBytes("23333"));
-            Log.info("Send message assignment to Consumer success");
-            System.out.println("Send message assignment to Consumer success,msg:"+message);
+            Log.info("Send message assignment to Consumer success,msg:"+message);
             return true;
         } catch (AlreadyClosedException ace) {
             Log.error(String.format("MQ already closed error,dataToSend=%s", message), ace);

@@ -1,8 +1,14 @@
-package cn.jpush.mp.rabbitmq;
+package cn.jpush.mp.rabbitmq.test;
+
+import cn.jpush.mp.rabbitmq.Config;
+import cn.jpush.mp.rabbitmq.DealHandler;
+import cn.jpush.mp.rabbitmq.Handler;
+import cn.jpush.mp.rabbitmq.WorkConsumerLB;
 
 public class ConsumerTest {
 	public static void main(String[] args) throws Exception {
-		Handler handler = new DealHandle();
+		Handler handler = new DealHandler();
+		
 		Config config = new Config();
 		config.rabbitMQServer = "127.0.0.1";
 		config.rabbitMQPort ="5672";

@@ -7,7 +7,7 @@
 
     <bean id="mpReceiverServletHolder" class="org.eclipse.jetty.servlet.ServletHolder">
         <constructor-arg>
-            <bean id="mpReceiverServlet" class="cn.jpush.mp.transport.impl.MPReceiver" />
+            <bean id="mpReceiverServlet" class="cn.jpush.mp.transport.impl.MPReceiverServlet" />
         </constructor-arg>
     </bean>
 
@@ -36,7 +36,7 @@
             <list>
                 <bean id="connector" class="org.eclipse.jetty.server.ServerConnector">
                     <constructor-arg ref="jettyServer"/>
-                    <property name="port" value="8968"/>
+                    <property name="port" value="${jetty.port}"/>
                 </bean>
             </list>
         </property>

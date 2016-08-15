@@ -8,7 +8,7 @@ import java.io.IOException;
  * Created by elvin on 16/8/15.
  */
 
-public class MPReceiver implements Servlet {
+public class MPReceiverServlet implements Servlet {
 
     @Override
     public void init(ServletConfig servletConfig) throws ServletException {

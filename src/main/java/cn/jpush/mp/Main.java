@@ -1,6 +1,5 @@
 package cn.jpush.mp;
 
-import cn.jpush.mp.transport.impl.JettyServer;
 import org.eclipse.jetty.server.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

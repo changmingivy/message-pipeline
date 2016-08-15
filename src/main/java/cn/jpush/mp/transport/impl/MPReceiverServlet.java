@@ -1,37 +1,46 @@
 package cn.jpush.mp.transport.impl;
 
 
-import javax.servlet.*;
+import org.apache.commons.lang.ArrayUtils;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
 
 /**
  * Created by elvin on 16/8/15.
  */
 
-public class MPReceiverServlet implements Servlet {
+public class MPReceiverServlet extends HttpServlet {
 
     @Override
-    public void init(ServletConfig servletConfig) throws ServletException {
-
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.getWriter().write("Service UP");
     }
 
     @Override
-    public ServletConfig getServletConfig() {
-        return null;
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        byte [] data = extractData(req);
+
+        System.out.println(data);
     }
 
-    @Override
-    public void service(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
-        servletResponse.getWriter().write("hello");
-    }
-
-    @Override
-    public String getServletInfo() {
-        return null;
-    }
-
-    @Override
-    public void destroy() {
-
+    private byte[] extractData(HttpServletRequest req) throws IOException {
+        byte [] data = null;
+        int len = 0;
+        byte [] buf = new byte[1024];
+        InputStream inputStream = new BufferedInputStream(req.getInputStream());
+        while ((len = inputStream.read(buf)) > 0) {
+            if (len < buf.length) {
+                buf = Arrays.copyOfRange(buf, 0, len);
+            }
+            data = ArrayUtils.addAll(data, buf);
+        }
+        return data;
     }
 }

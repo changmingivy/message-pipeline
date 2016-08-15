@@ -1,5 +1,7 @@
 package cn.jpush.mp;
 
+import cn.jpush.mp.transport.impl.JettyServer;
+import org.eclipse.jetty.server.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -10,11 +12,16 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
-    public static void main(String [] args) {
+    public static void main(String [] args) throws Exception {
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath*:spring-application.xml");
         applicationContext.start();
 
         logger.info("Spring started...");
+
+        Server server = applicationContext.getBean(Server.class);
+        server.start();
+
+        logger.info("Jetty started...");
 
         try {
             Thread.currentThread().join();

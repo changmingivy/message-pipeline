@@ -22,6 +22,6 @@
         <property name="ignoreUnresolvablePlaceholders" value="true"/>
     </bean>
 
-
+    <import resource="spring-jetty.xml" />
 	
 </beans>

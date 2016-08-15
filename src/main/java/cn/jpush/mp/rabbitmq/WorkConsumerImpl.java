@@ -42,7 +42,7 @@ import cn.jpush.mp.utils.SerializeUtil;
 	    // 注册事件
 	    @Override
 	    public void handleConsumeOk(String consumerTag) {
-	        Log.info(String.format("Consumer %s registered", consumerTag));
+	        Log.info(String.format("MPConsumer %s registered", consumerTag));
 	    }
 
 	    // 收到新消息
@@ -80,11 +80,11 @@ import cn.jpush.mp.utils.SerializeUtil;
 	    @Override
 	    public void handleShutdownSignal(String consumerTag, ShutdownSignalException sig) {
 	        try {
-	            Log.error(String.format("Work Consumer:%s Connection Error, Error:%s", consumerTag, sig.getMessage()), sig);
+	            Log.error(String.format("Work MPConsumer:%s Connection Error, Error:%s", consumerTag, sig.getMessage()), sig);
 	            Thread.sleep(200);
 	            initMQ();
 	        } catch (Exception e) {
-	            Log.error(String.format("Restart Work Consumer:%s Fail, Error:%s", consumerTag, sig.getMessage()), e);
+	            Log.error(String.format("Restart Work MPConsumer:%s Fail, Error:%s", consumerTag, sig.getMessage()), e);
 	        }
 	    }
 

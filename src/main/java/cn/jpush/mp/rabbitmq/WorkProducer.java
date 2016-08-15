@@ -34,7 +34,7 @@ public class WorkProducer extends WorkEndPoint {
     public boolean sendMessage(Object message) throws Exception {
         try {
             this.channel.basicPublish(exchangeName, routingKey, null, SerializeUtil.getBytes(message));
-            Log.info("Send message assignment to Consumer success,msg:"+message);
+            Log.info("Send message assignment to MPConsumer success,msg:"+message);
             return true;
         } catch (AlreadyClosedException ace) {
             Log.error(String.format("MQ already closed error,dataToSend=%s", message), ace);

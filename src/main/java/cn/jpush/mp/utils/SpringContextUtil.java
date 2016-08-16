@@ -22,7 +22,8 @@ public final class SpringContextUtil implements ApplicationContextAware {
         return context.getBean(clazz);
     }
 
+    @Override
     public void setApplicationContext(ApplicationContext context) throws BeansException {
-        context = context;
+        this.context = context;
     }
 }

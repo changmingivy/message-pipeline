@@ -2,6 +2,10 @@ package cn.jpush.mp.datasource;
 
 import cn.jpush.mp.rabbitmq.RabbitMQConfig;
 import cn.jpush.mp.rabbitmq.RabbitMQConsumerImpl;
+import cn.jpush.mp.transport.MPSenderManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
@@ -17,6 +21,7 @@ import java.util.Properties;
  */
 @Component
 public class MPConsumerManager {
+    private static final Logger logger = LoggerFactory.getLogger(MPConsumerManager.class);
 
     private Properties props;
 
@@ -54,7 +59,8 @@ public class MPConsumerManager {
                         rabbitMQConfigBuilder.setQueueName(props.getProperty(consumers + "." + cons + ".queueName"));
                         rabbitMQConfigBuilder.setRoutingKey(props.getProperty(consumers + "." + cons + ".routingKey"));
                         RabbitMQConfig rabbitConfig = rabbitMQConfigBuilder.build();
-                        MPConsumer consumer = new RabbitMQConsumerImpl(rabbitConfig);
+                        String senderName = props.getProperty(consumers + "." + cons + ".sender", "");
+                        MPConsumer consumer = new RabbitMQConsumerImpl(rabbitConfig, senderName);
                         consumerMap.put(cons, consumer);
                         consumer.initConsumer();
                     }

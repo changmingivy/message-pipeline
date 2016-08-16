@@ -1,6 +1,7 @@
 package cn.jpush.mp.transport;
 
 import cn.jpush.mp.transport.impl.HttpDataSender;
+import cn.jpush.mp.transport.impl.LocalDataSender;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
@@ -15,13 +16,15 @@ import java.util.Properties;
  * Created by elvin on 16/8/15.
  */
 @Component
-public class SenderManager {
+public class MPSenderManager {
 
     private Properties props;
 
-    private Map<String, DataSender> sendersMap;
+    private Map<String, MPDataSender> sendersMap;
 
-    public SenderManager() throws IOException {
+    private MPDataSender localSender = new LocalDataSender();
+
+    public MPSenderManager() throws IOException {
         loadConfig();
         initSender();
     }
@@ -37,7 +40,7 @@ public class SenderManager {
 
         for (String senderName : sendersSet) {
             String type = props.getProperty(senderName + ".type");
-            DataSender sender = null;
+            MPDataSender sender = null;
 
             switch (type) {
                 case "http":
@@ -52,9 +55,13 @@ public class SenderManager {
         }
     }
 
-    public void sendDataToAll(byte [] data) {
-        for (DataSender sender : sendersMap.values()) {
-            sender.sendData(data);
+    public void sendData(String senderName, byte [] data) {
+        if ("local".equals(senderName)) {
+            localSender.sendData(data);
+        } else if (sendersMap.get(senderName) != null){
+            sendersMap.get(senderName).sendData(data);
+        } else {
+            throw new RuntimeException("Sender not exists");
         }
     }
 }

@@ -1,6 +1,8 @@
 package cn.jpush.mp.rabbitmq;
 
 import cn.jpush.mp.datasource.MPConsumer;
+import cn.jpush.mp.transport.MPSenderManager;
+import cn.jpush.mp.utils.SpringContextUtil;
 import com.rabbitmq.client.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,10 +19,12 @@ public class RabbitMQConsumerImpl implements MPConsumer, Consumer {
     private Connection connection;
     private Channel channel;
 
+    private final String senderName;
     private final RabbitMQConfig config;
 
-    public RabbitMQConsumerImpl(RabbitMQConfig config) {
+    public RabbitMQConsumerImpl(RabbitMQConfig config, String senderName) {
         this.config = config;
+        this.senderName = senderName;
     }
 
     @Override
@@ -104,6 +108,10 @@ public class RabbitMQConsumerImpl implements MPConsumer, Consumer {
 
     @Override
     public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
+//        getSenderManager().sendData(senderName, body);
+    }
 
+    private MPSenderManager getSenderManager() {
+        return SpringContextUtil.getBean(MPSenderManager.class);
     }
 }

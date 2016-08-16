@@ -33,7 +33,7 @@ public class MPConsumerManager {
                 try {
                     Thread.sleep(3000);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    logger.error("延迟调用失败", e);
                 }
                 initConsumer();
             }

@@ -13,64 +13,33 @@ import java.io.IOException;
 /**
  * Created by elvin on 16/8/15.
  */
-public class RabbitMQConsumerImpl implements MPConsumer, Consumer {
+public class RabbitMQConsumerImpl extends RabbitMQBase implements MPConsumer, Consumer {
     private static final Logger logger = LoggerFactory.getLogger(RabbitMQConsumerImpl.class);
 
-    private Connection connection;
-    private Channel channel;
-
     private final String senderName;
-    private final RabbitMQConfig config;
 
     public RabbitMQConsumerImpl(RabbitMQConfig config, String senderName) {
-        this.config = config;
+        super(config);
         this.senderName = senderName;
     }
 
     @Override
     public void initConsumer() {
-        this.shutdown();
-
-        ConnectionFactory connectionFactory = new ConnectionFactory();
-        connectionFactory.setHost(config.server);
-        if (!StringUtils.isEmpty(config.username)) {
-            connectionFactory.setUsername(config.username);
-        }
-        if (!StringUtils.isEmpty(config.password)) {
-            connectionFactory.setPassword(config.password);
-        }
-        if (config.port != 0) {
-            connectionFactory.setPort(config.port);
-        }
         try {
-            this.connection = connectionFactory.newConnection();
-            this.channel = this.connection.createChannel();
-            this.channel.basicQos(config.basicQos);
-            this.channel.exchangeDeclare(config.exchangeName, config.exchangeMode);
-            this.channel.queueDeclare(config.queueName, true, false, false, null);
-            this.channel.queueBind(config.queueName, config.exchangeName, config.routingKey);
+            this.shutdown();
+            super.init();
             this.channel.basicConsume(config.queueName, false, this);
-            logger.info("初始化RabbitMQ成功 {}", config.server);
         } catch (IOException e) {
-            logger.error("打开RabbitMQ失败 " + config.server, e);
-            throw new RuntimeException(e);
+            logger.error("启动消费者失败 " + config.server, e);
         }
     }
 
     @Override
     public void shutdown() {
         try {
-            if (channel != null) {
-                channel.close();
-                channel = null;
-            }
-
-            if (connection != null) {
-                connection.close();
-                connection = null;
-            }
+            super.close();
         } catch (IOException e) {
-            logger.error("关闭RabbitMQ失败 " + config.server, e);
+            logger.error("关闭消费者失败 " + config.server, e);
         }
     }
 

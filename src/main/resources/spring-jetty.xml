@@ -25,7 +25,7 @@
 
     <bean id="servletHandler" class="org.eclipse.jetty.servlet.ServletContextHandler"/>
 
-    <bean id="jettyServer" class="org.eclipse.jetty.server.Server" destroy-method="stop">
+    <bean id="jettyServer" class="org.eclipse.jetty.server.Server" init-method="start" destroy-method="stop" depends-on="servletHandlerSetter">
         <constructor-arg>
             <bean id="threadPool" class="org.eclipse.jetty.util.thread.QueuedThreadPool">
                 <property name="minThreads" value="10"/>
@@ -43,6 +43,11 @@
         <property name="handler">
             <ref bean="servletHandler" />
         </property>
+    </bean>
+
+    <bean id="startJettyServer" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" depends-on="jettyServer">
+        <property name="targetObject" ref="jettyServer"></property>
+        <property name="targetMethod"><value>join</value></property>
     </bean>
 
 </beans>

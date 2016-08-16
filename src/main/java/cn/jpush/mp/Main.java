@@ -17,11 +17,6 @@ public class Main {
 
         logger.info("Spring started...");
 
-        Server server = applicationContext.getBean(Server.class);
-        server.start();
-
-        logger.info("Jetty started...");
-
         try {
             Thread.currentThread().join();
         } catch (InterruptedException e) {

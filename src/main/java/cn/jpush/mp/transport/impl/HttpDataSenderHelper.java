@@ -76,8 +76,8 @@ public class HttpDataSenderHelper {
             URL aUrl = new URL(url);
 
             conn = (HttpURLConnection) aUrl.openConnection();
-            conn.setConnectTimeout(60);
-            conn.setReadTimeout(60);
+            conn.setConnectTimeout(60*1000);
+            conn.setReadTimeout(60*1000);
             conn.setUseCaches(false);
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Connection", "Keep-Alive");

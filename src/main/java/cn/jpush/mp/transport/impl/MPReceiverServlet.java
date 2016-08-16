@@ -27,7 +27,10 @@ public class MPReceiverServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         byte [] data = extractData(req);
 
-        System.out.println(data);
+        System.out.println(new String(data));
+
+        resp.setStatus(200);
+        resp.getWriter().write("ok");
     }
 
     private byte[] extractData(HttpServletRequest req) throws IOException {

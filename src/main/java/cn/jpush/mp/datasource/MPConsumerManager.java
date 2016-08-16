@@ -2,10 +2,8 @@ package cn.jpush.mp.datasource;
 
 import cn.jpush.mp.rabbitmq.RabbitMQConfig;
 import cn.jpush.mp.rabbitmq.RabbitMQConsumerImpl;
-import cn.jpush.mp.transport.MPSenderManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
@@ -29,7 +27,17 @@ public class MPConsumerManager {
 
     public MPConsumerManager() throws IOException {
         loadConfig();
-        initConsumer();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                initConsumer();
+            }
+        }).start();
     }
 
     private void loadConfig() throws IOException {

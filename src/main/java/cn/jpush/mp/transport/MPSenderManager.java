@@ -15,7 +15,7 @@ import java.util.Properties;
 /**
  * Created by elvin on 16/8/15.
  */
-@Component
+@Component("senderManager")
 public class MPSenderManager {
 
     private Properties props;
@@ -45,8 +45,7 @@ public class MPSenderManager {
             switch (type) {
                 case "http":
                     String address = props.getProperty(senderName + ".address");
-                    String path = props.getProperty(senderName + ".path");
-                    sender = new HttpDataSender(address, path);
+                    sender = new HttpDataSender(address);
                     break;
             }
             if (sender != null) {

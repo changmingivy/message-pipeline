@@ -16,7 +16,7 @@ import java.util.Properties;
  * Created by elvin on 16/8/15.
  */
 @Component("senderManager")
-public class MPSenderManager {
+public class MPDataSenderManager {
 
     private Properties props;
 
@@ -24,7 +24,7 @@ public class MPSenderManager {
 
     private MPDataSender localSender = new LocalDataSender();
 
-    public MPSenderManager() throws IOException {
+    public MPDataSenderManager() throws IOException {
         loadConfig();
         initSender();
     }

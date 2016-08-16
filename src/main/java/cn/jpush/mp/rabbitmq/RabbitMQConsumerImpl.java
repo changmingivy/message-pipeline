@@ -1,8 +1,7 @@
 package cn.jpush.mp.rabbitmq;
 
 import cn.jpush.mp.datasource.MPConsumer;
-import cn.jpush.mp.transport.MPDataSender;
-import cn.jpush.mp.transport.MPSenderManager;
+import cn.jpush.mp.transport.MPDataSenderManager;
 import cn.jpush.mp.utils.SpringContextUtil;
 import com.rabbitmq.client.*;
 import org.slf4j.Logger;
@@ -109,11 +108,11 @@ public class RabbitMQConsumerImpl implements MPConsumer, Consumer {
 
     @Override
     public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
-        MPSenderManager senderManager = getSenderManager();
+        MPDataSenderManager senderManager = getSenderManager();
         senderManager.sendData(senderName, body);
     }
 
-    private MPSenderManager getSenderManager() {
-        return (MPSenderManager) SpringContextUtil.getBean("senderManager");
+    private MPDataSenderManager getSenderManager() {
+        return (MPDataSenderManager) SpringContextUtil.getBean("senderManager");
     }
 }

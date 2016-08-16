@@ -25,6 +25,7 @@
         <!-- jar 版本设置 -->
         <spring.version>4.2.5.RELEASE</spring.version>
         <jetty.version>9.2.10.v20150310</jetty.version>
+        <rabbitmq.version>3.1.4</rabbitmq.version>
     </properties>
 
     <dependencies>
@@ -54,7 +55,7 @@
         <dependency>
             <groupId>com.rabbitmq</groupId>
             <artifactId>amqp-client</artifactId>
-            <version>3.1.4</version>
+            <version>${rabbitmq.version}</version>
         </dependency>
         
          <!-- log -->

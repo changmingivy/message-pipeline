@@ -62,13 +62,13 @@ public class MPProviderManager {
                     for (String pros : prosSet) {
                         RabbitMQConfig.Builder rabbitMQConfigBuilder = RabbitMQConfig.createBuilder();
                         rabbitMQConfigBuilder.setServer(props.getProperty(providers + "." + pros + ".server"));
-                        rabbitMQConfigBuilder.setPort(Integer.valueOf(props.getProperty(providers + "." + pros + ".port")));
                         rabbitMQConfigBuilder.setUsername(props.getProperty(providers + "." + pros + ".username"));
                         rabbitMQConfigBuilder.setPassword(props.getProperty(providers + "." + pros + ".password"));
                         rabbitMQConfigBuilder.setExchangeName(props.getProperty(providers + "." + pros + ".exchangeName"));
                         rabbitMQConfigBuilder.setExchangeMode(props.getProperty(providers + "." + pros + ".exchangeMode"));
                         rabbitMQConfigBuilder.setQueueName(props.getProperty(providers + "." + pros + ".queueName"));
                         rabbitMQConfigBuilder.setRoutingKey(props.getProperty(providers + "." + pros + ".routingKey"));
+                        rabbitMQConfigBuilder.setBasicQos(Integer.valueOf(props.getProperty(providers + "." + pros + ".basicQos")));
                         RabbitMQConfig rabbitConfig = rabbitMQConfigBuilder.build();
                         MPProvider provider = new RabbitMQProviderImpl(rabbitConfig);
                         providerMap.put(pros, provider);

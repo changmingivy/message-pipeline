@@ -1,9 +1,9 @@
 package cn.jpush.mp.rabbitmq;
 
+import com.rabbitmq.client.Address;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
-import com.rabbitmq.client.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
@@ -20,22 +20,28 @@ public abstract class RabbitMQBase {
     protected Channel channel;
 
     protected final RabbitMQConfig config;
+    protected final Address [] addresses;
+
+    protected int currentAddress;
 
     public RabbitMQBase(RabbitMQConfig config) {
         this.config = config;
+        addresses = Address.parseAddresses(config.server);
+        currentAddress = 0;
     }
 
     protected void init() throws IOException {
+        currentAddress = (currentAddress + 1) % addresses.length;
+        Address address = addresses[currentAddress];
+
         ConnectionFactory connectionFactory = new ConnectionFactory();
-        connectionFactory.setHost(config.server);
+        connectionFactory.setHost(address.getHost());
+        connectionFactory.setPort(address.getPort());
         if (!StringUtils.isEmpty(config.username)) {
             connectionFactory.setUsername(config.username);
         }
         if (!StringUtils.isEmpty(config.password)) {
             connectionFactory.setPassword(config.password);
-        }
-        if (config.port != 0) {
-            connectionFactory.setPort(config.port);
         }
         this.connection = connectionFactory.newConnection();
         this.channel = this.connection.createChannel();

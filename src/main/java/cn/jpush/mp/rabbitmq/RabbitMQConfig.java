@@ -6,7 +6,6 @@ package cn.jpush.mp.rabbitmq;
 public class RabbitMQConfig {
 
     public final String server;
-    public final int port;
     public final String username;
     public final String password;
     public final String exchangeName;
@@ -15,11 +14,10 @@ public class RabbitMQConfig {
     public final String routingKey;
     public final int basicQos;
 
-    private RabbitMQConfig(String server, int port, String username, String password,
+    private RabbitMQConfig(String server, String username, String password,
                            String exchangeName, String exchangeMode, String queueName,
                            String routingKey, int basicQos) {
         this.server = server;
-        this.port = port;
         this.username = username;
         this.password = password;
         this.exchangeName = exchangeName;
@@ -35,7 +33,6 @@ public class RabbitMQConfig {
 
     public static class Builder {
         private String server;
-        private int port;
         private String username;
         private String password;
         private String exchangeName;
@@ -45,16 +42,11 @@ public class RabbitMQConfig {
         private int basicQos;
 
         public RabbitMQConfig build() {
-            return new RabbitMQConfig(server, port, username, password, exchangeName, exchangeMode, queueName, routingKey, basicQos);
+            return new RabbitMQConfig(server, username, password, exchangeName, exchangeMode, queueName, routingKey, basicQos);
         }
 
         public Builder setServer(String server) {
             this.server = server;
-            return this;
-        }
-
-        public Builder setPort(int port) {
-            this.port = port;
             return this;
         }
 

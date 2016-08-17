@@ -8,13 +8,15 @@ import cn.jpush.mp.transport.MPDataSender;
 public class HttpDataSender implements MPDataSender {
 
     private final String address;
+    private final String targetMQ;
 
-    public HttpDataSender(String address) {
+    public HttpDataSender(String address, String targetMQ) {
         this.address = address;
+        this.targetMQ = targetMQ;
     }
 
     @Override
     public void sendData(byte[] data) {
-        HttpDataSenderHelper.postByteArray(this.address, data);
+        HttpDataSenderHelper.postByteArray(this.address, data, targetMQ);
     }
 }

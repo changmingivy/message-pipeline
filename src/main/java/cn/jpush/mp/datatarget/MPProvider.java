@@ -8,4 +8,6 @@ public interface MPProvider {
     void initProvider();
 
     void shutdown();
+
+    void publishMessage(byte [] body);
 }

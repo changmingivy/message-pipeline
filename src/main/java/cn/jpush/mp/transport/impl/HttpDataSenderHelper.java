@@ -61,7 +61,7 @@ public class HttpDataSenderHelper {
     }
 
 
-    public static String postByteArray(String url, byte [] data) {
+    public static String postByteArray(String url, byte [] data, String targetMQ) {
         logger.debug("Send request to - " + url + ", with data length - " + data.length);
         HttpURLConnection conn = null;
         OutputStream out = null;
@@ -84,6 +84,8 @@ public class HttpDataSenderHelper {
             conn.setRequestProperty("Accept-Charset", "UTF-8");
             conn.setRequestProperty("Charset", "UTF-8");
             conn.setRequestProperty("Content-Type", "application/octet-stream");
+
+            conn.setRequestProperty("Target-MQ", targetMQ);
 
             conn.setDoOutput(true);
             conn.setRequestProperty("Content-Length", String.valueOf(data.length));
@@ -113,12 +115,15 @@ public class HttpDataSenderHelper {
             } else {
                 logger.warn("Got error response - responseCode:" + status + ", responseContent:"
                         + responseContent);
+                throw new RuntimeException("Http request Error");
             }
 
         } catch (SocketTimeoutException e) {
             logger.error("Post data to " + url, e);
+            throw new RuntimeException(e);
         } catch (IOException e) {
             logger.error("Post data to " + url, e);
+            throw new RuntimeException(e);
         } finally {
             if (null != out) {
                 try {

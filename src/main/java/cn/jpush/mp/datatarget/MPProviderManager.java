@@ -17,7 +17,7 @@ import java.util.Properties;
 /**
  * Created by elvin on 16/8/16.
  */
-@Component
+@Component("providerManager")
 public class MPProviderManager {
     private static final Logger logger = LoggerFactory.getLogger(MPProviderManager.class);
 
@@ -72,4 +72,23 @@ public class MPProviderManager {
             providersMap.put(providers, providerMap);
         }
     }
+
+    public void publishMessage(String targetMQ, byte [] data) {
+        String [] targetMQArray = targetMQ.split("\\.");
+        if (targetMQArray == null || targetMQArray.length < 2) {
+            throw new RuntimeException("TargetMQ error");
+        }
+
+        if (providersMap.get(targetMQArray[0]) == null) {
+            throw new RuntimeException("TargetMQ error");
+        }
+        MPProvider provider = providersMap.get(targetMQArray[0]).get(targetMQArray[1]);
+
+        if (provider == null) {
+            throw new RuntimeException("TargetMQ error");
+        }
+
+        provider.publishMessage(data);
+    }
+
 }

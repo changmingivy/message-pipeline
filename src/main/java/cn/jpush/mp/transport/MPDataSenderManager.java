@@ -45,7 +45,8 @@ public class MPDataSenderManager {
             switch (type) {
                 case "http":
                     String address = props.getProperty(senderName + ".address");
-                    sender = new HttpDataSender(address);
+                    String targetMQ = props.getProperty(senderName + ".targetMQ");
+                    sender = new HttpDataSender(address, targetMQ);
                     break;
             }
             if (sender != null) {

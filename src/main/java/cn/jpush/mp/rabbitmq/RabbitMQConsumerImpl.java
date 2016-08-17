@@ -77,9 +77,15 @@ public class RabbitMQConsumerImpl extends RabbitMQBase implements MPConsumer, Co
 
     @Override
     public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
-        logger.info("{} received message, data length {}", config.server, body.length);
-        MPDataSenderManager senderManager = getSenderManager();
-        senderManager.sendData(senderName, body);
+        logger.info("{} received message, data length {}, sender {}", config.server, body.length, senderName);
+        try {
+            MPDataSenderManager senderManager = getSenderManager();
+            senderManager.sendData(senderName, body);
+            channel.basicAck(envelope.getDeliveryTag(), false);
+        } catch (Exception e) {
+            logger.error(config.server + " message handle failed, sender " + senderName, e);
+            channel.basicNack(envelope.getDeliveryTag(), false, true);
+        }
     }
 
     private MPDataSenderManager getSenderManager() {

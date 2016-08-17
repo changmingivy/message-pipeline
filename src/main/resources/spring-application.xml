@@ -25,6 +25,6 @@
 
     <bean id="springContextUtil" class="cn.jpush.mp.utils.SpringContextUtil"/>
 
-    <import resource="spring-jetty.xml" />
+    <import resource="classpath*:spring-jetty.xml" />
 	
 </beans>

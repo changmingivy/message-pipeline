@@ -10,6 +10,7 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -36,8 +37,11 @@ public class MPProviderManager {
     }
 
     private void loadConfig() throws IOException {
-        Resource resource = new ClassPathResource("mp-provider.properties");
-        props = PropertiesLoaderUtils.loadProperties(resource);
+        InputStream inputStream = MPProviderManager.class.getResourceAsStream("/mp-provider.properties");
+        props = new Properties();
+        props.load(inputStream);
+//        Resource resource = new ClassPathResource("classpath*:mp-provider.properties");
+//        props = PropertiesLoaderUtils.loadProperties(resource);
     }
 
     private void initConsumer() {

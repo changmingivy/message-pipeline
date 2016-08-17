@@ -8,6 +8,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,6 +50,9 @@ public class MPProviderManager {
         String [] providersSet = props.getProperty("provider.set", "").split(",");
 
         for (String providers : providersSet) {
+            if (StringUtils.isEmpty(providers)) {
+                continue;
+            }
             Map<String, MPProvider> providerMap = new HashMap<>();
             String type = props.getProperty(providers + ".type");
 

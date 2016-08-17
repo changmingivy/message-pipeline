@@ -6,6 +6,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,6 +44,9 @@ public class MPDataSenderManager {
         String [] sendersSet = props.getProperty("sender.set", "").split(",");
 
         for (String senderName : sendersSet) {
+            if (StringUtils.isEmpty(senderName)) {
+                continue;
+            }
             String type = props.getProperty(senderName + ".type");
             MPDataSender sender = null;
 

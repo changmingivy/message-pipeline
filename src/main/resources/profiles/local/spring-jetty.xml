@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:task="http://www.springframework.org/schema/task"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd"
+        http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd"
        default-lazy-init="true">
 
     <bean id="mpReceiverServletHolder" class="org.eclipse.jetty.servlet.ServletHolder">
@@ -45,9 +46,12 @@
         </property>
     </bean>
 
-    <bean id="startJettyServer" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" depends-on="jettyServer">
-        <property name="targetObject" ref="jettyServer"></property>
-        <property name="targetMethod"><value>join</value></property>
-    </bean>
+    <!-- Scheduled tasks to be exectued -->
+    <task:scheduled-tasks scheduler="scheduler">
+        <task:scheduled ref="jettyServer" method="join" fixed-delay="300"/>
+    </task:scheduled-tasks>
+
+    <!-- The scheduler that executes scheduled tasks -->
+    <task:scheduler id="scheduler" pool-size="1"/>
 
 </beans>

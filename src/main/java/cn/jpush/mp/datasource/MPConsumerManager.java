@@ -8,6 +8,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,6 +55,9 @@ public class MPConsumerManager {
         String [] consumersSet = props.getProperty("consumer.set", "").split(",");
 
         for (String consumers : consumersSet) {
+            if (StringUtils.isEmpty(consumers)) {
+                continue;
+            }
             Map<String, MPConsumer> consumerMap = new HashMap<>();
             String type = props.getProperty(consumers + ".type");
 

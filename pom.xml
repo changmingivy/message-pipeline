@@ -81,9 +81,15 @@
             </properties>
         </profile>
         <profile>
-            <id>fufeng</id>
+            <id>source</id>
             <properties>
-                <package.environment>fufeng</package.environment>
+                <package.environment>source</package.environment>
+            </properties>
+        </profile>
+        <profile>
+            <id>target</id>
+            <properties>
+                <package.environment>target</package.environment>
             </properties>
         </profile>
         <profile>

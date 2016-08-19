@@ -38,9 +38,6 @@ public abstract class RabbitMQBase {
         this.connection = connectionFactory.newConnection(addresses);
         this.channel = this.connection.createChannel();
         this.channel.basicQos(config.basicQos);
-        this.channel.exchangeDeclare(config.exchangeName, config.exchangeMode);
-        this.channel.queueDeclare(config.queueName, true, false, false, null);
-        this.channel.queueBind(config.queueName, config.exchangeName, config.routingKey);
         logger.info("初始化RabbitMQ成功 {}", config.server);
     }
 

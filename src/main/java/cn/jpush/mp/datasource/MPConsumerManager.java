@@ -2,6 +2,7 @@ package cn.jpush.mp.datasource;
 
 import cn.jpush.mp.rabbitmq.RabbitMQConfig;
 import cn.jpush.mp.rabbitmq.RabbitMQConsumerImpl;
+import cn.jpush.mp.rabbitmq.RabbitMQQueuedConsumerImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -77,6 +78,25 @@ public class MPConsumerManager {
                         RabbitMQConfig rabbitConfig = rabbitMQConfigBuilder.build();
                         String senderName = props.getProperty(consumers + "." + cons + ".sender", "");
                         MPConsumer consumer = new RabbitMQConsumerImpl(rabbitConfig, senderName);
+                        consumerMap.put(cons, consumer);
+                        consumer.initConsumer();
+                    }
+                    break;
+                case "RabbitMQQueued":
+                    consSet = props.getProperty(consumers + ".set", "").split(",");
+                    for (String cons : consSet) {
+                        RabbitMQConfig.Builder rabbitMQConfigBuilder = RabbitMQConfig.createBuilder();
+                        rabbitMQConfigBuilder.setServer(props.getProperty(consumers + "." + cons + ".server"));
+                        rabbitMQConfigBuilder.setUsername(props.getProperty(consumers + "." + cons + ".username"));
+                        rabbitMQConfigBuilder.setPassword(props.getProperty(consumers + "." + cons + ".password"));
+                        rabbitMQConfigBuilder.setExchangeName(props.getProperty(consumers + "." + cons + ".exchangeName"));
+                        rabbitMQConfigBuilder.setExchangeMode(props.getProperty(consumers + "." + cons + ".exchangeMode"));
+                        rabbitMQConfigBuilder.setQueueName(props.getProperty(consumers + "." + cons + ".queueName"));
+                        rabbitMQConfigBuilder.setRoutingKey(props.getProperty(consumers + "." + cons + ".routingKey"));
+                        rabbitMQConfigBuilder.setBasicQos(Integer.valueOf(props.getProperty(consumers + "." + cons + ".basicQos")));
+                        RabbitMQConfig rabbitConfig = rabbitMQConfigBuilder.build();
+                        String senderName = props.getProperty(consumers + "." + cons + ".sender", "");
+                        MPConsumer consumer = new RabbitMQQueuedConsumerImpl(rabbitConfig, senderName);
                         consumerMap.put(cons, consumer);
                         consumer.initConsumer();
                     }

@@ -22,28 +22,20 @@ public abstract class RabbitMQBase {
     protected final RabbitMQConfig config;
     protected final Address [] addresses;
 
-    protected int currentAddress;
-
     public RabbitMQBase(RabbitMQConfig config) {
         this.config = config;
         addresses = Address.parseAddresses(config.server);
-        currentAddress = 0;
     }
 
     protected void init() throws IOException {
-        currentAddress = (currentAddress + 1) % addresses.length;
-        Address address = addresses[currentAddress];
-
         ConnectionFactory connectionFactory = new ConnectionFactory();
-        connectionFactory.setHost(address.getHost());
-        connectionFactory.setPort(address.getPort());
         if (!StringUtils.isEmpty(config.username)) {
             connectionFactory.setUsername(config.username);
         }
         if (!StringUtils.isEmpty(config.password)) {
             connectionFactory.setPassword(config.password);
         }
-        this.connection = connectionFactory.newConnection();
+        this.connection = connectionFactory.newConnection(addresses);
         this.channel = this.connection.createChannel();
         this.channel.basicQos(config.basicQos);
         this.channel.exchangeDeclare(config.exchangeName, config.exchangeMode);

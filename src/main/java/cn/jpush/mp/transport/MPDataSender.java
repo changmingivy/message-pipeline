@@ -5,6 +5,6 @@ package cn.jpush.mp.transport;
  */
 public interface MPDataSender {
 
-    void sendData(byte [] data);
+    void sendData(String routingKey, byte [] data);
 
 }

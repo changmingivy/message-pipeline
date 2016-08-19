@@ -63,9 +63,9 @@ public class MPDataSenderManager {
         }
     }
 
-    public void sendData(String senderName, byte [] data) {
+    public void sendData(String senderName, String routingKey, byte [] data) {
         if (sendersMap.get(senderName) != null){
-            sendersMap.get(senderName).sendData(data);
+            sendersMap.get(senderName).sendData(routingKey, data);
         } else {
             throw new RuntimeException("Sender not exists");
         }

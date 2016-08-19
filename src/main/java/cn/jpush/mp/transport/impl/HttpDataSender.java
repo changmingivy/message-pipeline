@@ -16,7 +16,7 @@ public class HttpDataSender implements MPDataSender {
     }
 
     @Override
-    public void sendData(byte[] data) {
-        HttpDataSenderHelper.postByteArray(this.address, data, targetMQ);
+    public void sendData(String routingKey, byte[] data) {
+        HttpDataSenderHelper.postByteArray(this.address, data, targetMQ, routingKey);
     }
 }

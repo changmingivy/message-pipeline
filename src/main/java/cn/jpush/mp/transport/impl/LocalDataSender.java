@@ -16,8 +16,8 @@ public class LocalDataSender implements MPDataSender {
     }
 
     @Override
-    public void sendData(byte[] data) {
-        getMPProviderManager().publishMessage(targetMQ, data);
+    public void sendData(String routingKey, byte[] data) {
+        getMPProviderManager().publishMessage(targetMQ, routingKey, data);
     }
 
     private MPProviderManager getMPProviderManager() {

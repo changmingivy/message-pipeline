@@ -41,6 +41,7 @@ public class MPReceiverServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String targetMQ = req.getHeader("Target-MQ");
+        String routingKey = req.getHeader("Routing-Key");
         byte [] data = extractData(req);
 
         int statusCode = 500;
@@ -51,7 +52,7 @@ public class MPReceiverServlet extends HttpServlet {
         if (!StringUtils.isEmpty(targetMQ) && !ArrayUtils.isEmpty(data) && targetMQ.contains(".")) {
             logger.info("Http receive request, targetMQ: {} data length", targetMQ, data.length);
             try {
-                providerManager.publishMessage(targetMQ, data);
+                providerManager.publishMessage(targetMQ, routingKey, data);
                 statusCode = 200;
                 responseContent = "ok";
             } catch (Exception e) {

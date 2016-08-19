@@ -62,7 +62,7 @@ public class RabbitMQQueuedConsumerImpl extends RabbitMQBase implements MPConsum
                     logger.info("{} received message, data length {}, sender {}", config.server, body.length, senderName);
                     try {
                         MPDataSenderManager senderManager = getSenderManager();
-                        senderManager.sendData(senderName, body);
+                        senderManager.sendData(senderName, envelope.getRoutingKey(), body);
                         channel.basicAck(envelope.getDeliveryTag(), false);
                     } catch (Exception e) {
                         logger.error(config.server + " message handle failed, sender " + senderName, e);

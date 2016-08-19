@@ -71,9 +71,7 @@ public class MPConsumerManager {
                         rabbitMQConfigBuilder.setUsername(props.getProperty(consumers + "." + cons + ".username"));
                         rabbitMQConfigBuilder.setPassword(props.getProperty(consumers + "." + cons + ".password"));
                         rabbitMQConfigBuilder.setExchangeName(props.getProperty(consumers + "." + cons + ".exchangeName"));
-                        rabbitMQConfigBuilder.setExchangeMode(props.getProperty(consumers + "." + cons + ".exchangeMode"));
                         rabbitMQConfigBuilder.setQueueName(props.getProperty(consumers + "." + cons + ".queueName"));
-                        rabbitMQConfigBuilder.setRoutingKey(props.getProperty(consumers + "." + cons + ".routingKey"));
                         rabbitMQConfigBuilder.setBasicQos(Integer.valueOf(props.getProperty(consumers + "." + cons + ".basicQos")));
                         RabbitMQConfig rabbitConfig = rabbitMQConfigBuilder.build();
                         String senderName = props.getProperty(consumers + "." + cons + ".sender", "");
@@ -90,9 +88,7 @@ public class MPConsumerManager {
                         rabbitMQConfigBuilder.setUsername(props.getProperty(consumers + "." + cons + ".username"));
                         rabbitMQConfigBuilder.setPassword(props.getProperty(consumers + "." + cons + ".password"));
                         rabbitMQConfigBuilder.setExchangeName(props.getProperty(consumers + "." + cons + ".exchangeName"));
-                        rabbitMQConfigBuilder.setExchangeMode(props.getProperty(consumers + "." + cons + ".exchangeMode"));
                         rabbitMQConfigBuilder.setQueueName(props.getProperty(consumers + "." + cons + ".queueName"));
-                        rabbitMQConfigBuilder.setRoutingKey(props.getProperty(consumers + "." + cons + ".routingKey"));
                         rabbitMQConfigBuilder.setBasicQos(Integer.valueOf(props.getProperty(consumers + "." + cons + ".basicQos")));
                         RabbitMQConfig rabbitConfig = rabbitMQConfigBuilder.build();
                         String senderName = props.getProperty(consumers + "." + cons + ".sender", "");

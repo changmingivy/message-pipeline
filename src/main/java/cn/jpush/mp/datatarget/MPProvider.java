@@ -9,5 +9,5 @@ public interface MPProvider {
 
     void shutdown();
 
-    void publishMessage(byte [] body);
+    void publishMessage(String routingKey, byte [] body);
 }

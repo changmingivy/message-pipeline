@@ -61,7 +61,7 @@ public class HttpDataSenderHelper {
     }
 
 
-    public static String postByteArray(String url, byte [] data, String targetMQ) {
+    public static String postByteArray(String url, byte [] data, String targetMQ, String routingKey) {
         logger.debug("Send request to - " + url + ", with data length - " + data.length);
         HttpURLConnection conn = null;
         OutputStream out = null;
@@ -86,6 +86,7 @@ public class HttpDataSenderHelper {
             conn.setRequestProperty("Content-Type", "application/octet-stream");
 
             conn.setRequestProperty("Target-MQ", targetMQ);
+            conn.setRequestProperty("Routing-Key", routingKey);
 
             conn.setDoOutput(true);
             conn.setRequestProperty("Content-Length", String.valueOf(data.length));

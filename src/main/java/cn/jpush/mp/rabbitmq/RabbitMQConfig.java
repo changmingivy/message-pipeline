@@ -9,21 +9,16 @@ public class RabbitMQConfig {
     public final String username;
     public final String password;
     public final String exchangeName;
-    public final String exchangeMode;
     public final String queueName;
-    public final String routingKey;
     public final int basicQos;
 
     private RabbitMQConfig(String server, String username, String password,
-                           String exchangeName, String exchangeMode, String queueName,
-                           String routingKey, int basicQos) {
+                           String exchangeName, String queueName, int basicQos) {
         this.server = server;
         this.username = username;
         this.password = password;
         this.exchangeName = exchangeName;
-        this.exchangeMode = exchangeMode;
         this.queueName = queueName;
-        this.routingKey = routingKey;
         this.basicQos = basicQos;
     }
 
@@ -36,13 +31,11 @@ public class RabbitMQConfig {
         private String username;
         private String password;
         private String exchangeName;
-        private String exchangeMode;
         private String queueName;
-        private String routingKey;
         private int basicQos;
 
         public RabbitMQConfig build() {
-            return new RabbitMQConfig(server, username, password, exchangeName, exchangeMode, queueName, routingKey, basicQos);
+            return new RabbitMQConfig(server, username, password, exchangeName, queueName, basicQos);
         }
 
         public Builder setServer(String server) {
@@ -65,18 +58,8 @@ public class RabbitMQConfig {
             return this;
         }
 
-        public Builder setExchangeMode(String exchangeMode) {
-            this.exchangeMode = exchangeMode;
-            return this;
-        }
-
         public Builder setQueueName(String queueName) {
             this.queueName = queueName;
-            return this;
-        }
-
-        public Builder setRoutingKey(String routingKey) {
-            this.routingKey = routingKey;
             return this;
         }
 

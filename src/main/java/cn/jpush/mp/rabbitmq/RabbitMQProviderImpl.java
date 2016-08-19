@@ -46,9 +46,9 @@ public class RabbitMQProviderImpl extends RabbitMQBase implements MPProvider {
     }
 
     @Override
-    public void publishMessage(byte[] body) {
+    public void publishMessage(String routingKey, byte[] body) {
         try {
-            this.channel.basicPublish(config.exchangeName, config.routingKey, null, body);
+            this.channel.basicPublish(config.exchangeName, routingKey, null, body);
             logger.info("Publish Message to {}, data length {}", config.server, body.length);
         } catch (IOException e) {
             logger.error("Publish Message Error", e);

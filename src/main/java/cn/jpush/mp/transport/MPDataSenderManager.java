@@ -2,9 +2,6 @@ package cn.jpush.mp.transport;
 
 import cn.jpush.mp.transport.impl.HttpDataSender;
 import cn.jpush.mp.transport.impl.LocalDataSender;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -23,8 +20,6 @@ public class MPDataSenderManager {
     private Properties props;
 
     private Map<String, MPDataSender> sendersMap;
-
-    private MPDataSender localSender = new LocalDataSender();
 
     public MPDataSenderManager() throws IOException {
         loadConfig();
@@ -47,16 +42,21 @@ public class MPDataSenderManager {
             if (StringUtils.isEmpty(senderName)) {
                 continue;
             }
-            String type = props.getProperty(senderName + ".type");
-            MPDataSender sender = null;
 
+            MPDataSender sender = null;
+            String type = props.getProperty(senderName + ".type");
             switch (type) {
                 case "http":
                     String address = props.getProperty(senderName + ".address");
                     String targetMQ = props.getProperty(senderName + ".targetMQ");
                     sender = new HttpDataSender(address, targetMQ);
                     break;
+                case "local":
+                    targetMQ = props.getProperty(senderName + ".targetMQ");
+                    sender = new LocalDataSender(targetMQ);
+                    break;
             }
+
             if (sender != null) {
                 sendersMap.put(senderName, sender);
             }
@@ -64,9 +64,7 @@ public class MPDataSenderManager {
     }
 
     public void sendData(String senderName, byte [] data) {
-        if ("local".equals(senderName)) {
-            localSender.sendData(data);
-        } else if (sendersMap.get(senderName) != null){
+        if (sendersMap.get(senderName) != null){
             sendersMap.get(senderName).sendData(data);
         } else {
             throw new RuntimeException("Sender not exists");
